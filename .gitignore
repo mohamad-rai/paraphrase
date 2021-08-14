@@ -1,0 +1,6 @@
+# IDE
+.idea
+
+.env
+
+node_modules

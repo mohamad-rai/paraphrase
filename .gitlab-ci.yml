@@ -1,0 +1,26 @@
+image: node:latest
+
+stages:
+  # - production
+  - dev
+dev:
+  type: deploy
+  stage: dev
+  image: ruby:latest
+  allow_failure: true
+  script:
+    - cd .. && sudo rm -Rf paraphraser-api
+    - sudo git clone https://saeid:bdGsjcWU9UPLrQznH8Bf@gitlab.feedopedia.com/saeid/paraphraser-api.git
+    - cd paraphraser-api && sudo git checkout dev
+    - sudo npm i
+    - set NODE_OPTIONS=--max_old_space_size=4096
+    # - tsc -p server --allowJs
+    # - sudo cp ../../../../secret/.env.production dist/.env.production
+    # - sudo cp ./server/controllers/dkim.txt ./dist/controllers/dkim.txt
+    - sudo service nginx restart
+  environment:
+    name: dev
+  tags:
+     - dev
+  only:
+    - dev
